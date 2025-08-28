@@ -105,17 +105,42 @@
     <section class="content">
         <h2>Nuestros Favoritos</h2>
         <div class="menu-highlight">
+
             <div class="menu-item">
     <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Pollo Burger">
     <h3>Pollo Burger</h3>
     <p>Carne 100% Angus, queso cheddar, lechuga, tomate y nuestra salsa especial.</p>
-    <div class="cta">
-        <!-- Enlace con mensaje predeterminado -->
-        <a href="https://wa.me/522282114473?text=Quiero%20un%20Pollo%20Burger" target="_blank">
-            <button>¡Haz tu pedido ahora!</button>
-        </a>
-    </div>
+
+    <!-- Formulario con opciones de personalización -->
+    <form action="https://wa.me/522282114473" method="get" target="_blank">
+        <div class="options">
+            <label>
+                <input type="checkbox" name="customizations" value="Sin cebolla"> Sin cebolla
+            </label><br>
+            <label>
+                <input type="checkbox" name="customizations" value="Sin tomate"> Sin tomate
+            </label><br>
+            <label>
+                <input type="checkbox" name="customizations" value="Sin lechuga"> Sin lechuga
+            </label><br>
+            <label>
+                <input type="checkbox" name="customizations" value="Con papas"> Con papas
+            </label><br>
+        </div>
+
+        <!-- Caja de comentarios -->
+        <div class="comments">
+            <label for="comments">Comentarios adicionales:</label><br>
+            <textarea id="comments" name="comments" rows="4" cols="50" placeholder="Escribe cualquier detalle adicional que quieras agregar..."></textarea>
+        </div>
+
+        <!-- Botón de pedido -->
+        <div class="cta">
+            <button type="submit">¡Haz tu pedido ahora!</button>
+        </div>
+    </form>
 </div>
+
             <div class="menu-item">
                 <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="BBQ Bacon Burger">
                 <h3>Pollo Bacon</h3>

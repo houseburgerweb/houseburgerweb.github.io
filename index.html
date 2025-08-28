@@ -131,49 +131,51 @@
         <div class="menu-highlight">
 
             <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Pollo Burger">
-                <h3>Pollo Burger</h3>
-                <p>Carne 100% Angus, queso cheddar, lechuga, tomate y nuestra salsa especial.</p>
+    <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Pollo Burger">
+    <h3>Pollo Burger</h3>
+    <p>Carne 100% Angus, queso cheddar, lechuga, tomate y nuestra salsa especial.</p>
 
-                <!-- Formulario con opciones de personalización -->
-                <form action="https://wa.me/522282114473" method="get" target="_blank">
-                    <div class="options">
-                       <div class="options-columns row">
-    <div class="col-6">
-        <label>
-            <input type="checkbox" name="customizations" value="Sin cebolla"> Sin cebolla
-        </label>
-    </div>
-    <div class="col-6">
-        <label>
-            <input type="checkbox" name="customizations" value="Sin tomate"> Sin tomate
-        </label>
-    </div>
-    <div class="col-6">
-        <label>
-            <input type="checkbox" name="customizations" value="Sin lechuga"> Sin lechuga
-        </label>
-    </div>
-    <div class="col-6">
-        <label>
-            <input type="checkbox" name="customizations" value="Con papas"> Con papas
-        </label>
-    </div>
-</div>
-                    </div>
-<br>
-                    <!-- Caja de comentarios -->
-                    <div class="comments">
-                        <label for="comments">Comentarios adicionales:</label><br>
-                        <textarea id="comments" name="comments" rows="4" cols="50" placeholder="Escribe cualquier detalle adicional que quieras agregar..."></textarea>
-                    </div>
-
-                    <!-- Botón de pedido -->
-                    <div class="cta">
-                        <button type="submit">¡Haz tu pedido ahora!</button>
-                    </div>
-                </form>
+    <!-- Formulario con opciones de personalización -->
+    <form id="pedidoForm">
+        <div class="options">
+            <div class="options-columns row">
+                <div class="col-6">
+                    <label>
+                        <input type="checkbox" name="customizations" value="Sin cebolla"> Sin cebolla
+                    </label>
+                </div>
+                <div class="col-6">
+                    <label>
+                        <input type="checkbox" name="customizations" value="Sin tomate"> Sin tomate
+                    </label>
+                </div>
+                <div class="col-6">
+                    <label>
+                        <input type="checkbox" name="customizations" value="Sin lechuga"> Sin lechuga
+                    </label>
+                </div>
+                <div class="col-6">
+                    <label>
+                        <input type="checkbox" name="customizations" value="Con papas"> Con papas
+                    </label>
+                </div>
             </div>
+        </div>
+        <br>
+        <!-- Caja de comentarios -->
+        <div class="comments">
+            <label for="comments">Comentarios adicionales:</label><br>
+            <textarea id="comments" name="comments" rows="4" cols="50" placeholder="Escribe cualquier detalle adicional que quieras agregar..."></textarea>
+        </div>
+
+        <!-- Botón de pedido -->
+        <div class="cta">
+            <button type="submit">¡Haz tu pedido ahora!</button>
+        </div>
+    </form>
+</div>
+
+
 
             <!-- Otros elementos de menú -->
             <div class="menu-item">
@@ -238,6 +240,40 @@
     <footer>
         <p>&copy; 2025 HouseBurgerWeb. Todos los derechos reservados.</p>
     </footer>
+
+    <script>
+document.getElementById("pedidoForm").addEventListener("submit", function(e) {
+    e.preventDefault(); // Evita que se envíe el form normal
+
+    const numero = "522282114473"; 
+    const nombreHamburguesa = "Pollo Burger";
+
+    // Obtener checkboxes seleccionados
+    let opciones = [];
+    document.querySelectorAll('input[name="customizations"]:checked').forEach(el => {
+        opciones.push(el.value);
+    });
+
+    // Obtener comentario adicional
+    let comentario = document.getElementById("comments").value.trim();
+
+    // Construir mensaje
+    let mensaje = `Hola! Quiero pedir una *${nombreHamburguesa}*`;
+    if (opciones.length > 0) {
+        mensaje += ` con las siguientes personalizaciones: ${opciones.join(", ")}`;
+    }
+    if (comentario) {
+        mensaje += `. Comentario adicional: ${comentario}`;
+    }
+
+    // Codificar mensaje para URL
+    let url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+
+    // Abrir WhatsApp
+    window.open(url, "_blank");
+});
+</script>
+
 
 </body>
 </html>

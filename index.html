@@ -81,6 +81,28 @@
             padding: 15px;
             margin-top: 50px;
         }
+
+        /* Nuevos estilos */
+        .options-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-between;
+        }
+
+        .options-columns label {
+            width: 48%; /* Para dos columnas */
+        }
+
+        /* Estilo para la caja de comentarios */
+        textarea {
+            width: 100%;
+            max-width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            resize: vertical; /* Solo permite redimensionar verticalmente */
+        }
     </style>
 </head>
 <body>
@@ -107,40 +129,43 @@
         <div class="menu-highlight">
 
             <div class="menu-item">
-    <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Pollo Burger">
-    <h3>Pollo Burger</h3>
-    <p>Carne 100% Angus, queso cheddar, lechuga, tomate y nuestra salsa especial.</p>
+                <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Pollo Burger">
+                <h3>Pollo Burger</h3>
+                <p>Carne 100% Angus, queso cheddar, lechuga, tomate y nuestra salsa especial.</p>
 
-    <!-- Formulario con opciones de personalización -->
-    <form action="https://wa.me/522282114473" method="get" target="_blank">
-        <div class="options">
-            <label>
-                <input type="checkbox" name="customizations" value="Sin cebolla"> Sin cebolla
-            </label><br>
-            <label>
-                <input type="checkbox" name="customizations" value="Sin tomate"> Sin tomate
-            </label><br>
-            <label>
-                <input type="checkbox" name="customizations" value="Sin lechuga"> Sin lechuga
-            </label><br>
-            <label>
-                <input type="checkbox" name="customizations" value="Con papas"> Con papas
-            </label><br>
-        </div>
+                <!-- Formulario con opciones de personalización -->
+                <form action="https://wa.me/522282114473" method="get" target="_blank">
+                    <div class="options">
+                        <div class="options-columns">
+                            <label>
+                                <input type="checkbox" name="customizations" value="Sin cebolla"> Sin cebolla
+                            </label>
+                            <label>
+                                <input type="checkbox" name="customizations" value="Sin tomate"> Sin tomate
+                            </label>
+                            <label>
+                                <input type="checkbox" name="customizations" value="Sin lechuga"> Sin lechuga
+                            </label>
+                            <label>
+                                <input type="checkbox" name="customizations" value="Con papas"> Con papas
+                            </label>
+                        </div>
+                    </div>
 
-        <!-- Caja de comentarios -->
-        <div class="comments">
-            <label for="comments">Comentarios adicionales:</label><br>
-            <textarea id="comments" name="comments" rows="4" cols="50" placeholder="Escribe cualquier detalle adicional que quieras agregar..."></textarea>
-        </div>
+                    <!-- Caja de comentarios -->
+                    <div class="comments">
+                        <label for="comments">Comentarios adicionales:</label><br>
+                        <textarea id="comments" name="comments" rows="4" cols="50" placeholder="Escribe cualquier detalle adicional que quieras agregar..."></textarea>
+                    </div>
 
-        <!-- Botón de pedido -->
-        <div class="cta">
-            <button type="submit">¡Haz tu pedido ahora!</button>
-        </div>
-    </form>
-</div>
+                    <!-- Botón de pedido -->
+                    <div class="cta">
+                        <button type="submit">¡Haz tu pedido ahora!</button>
+                    </div>
+                </form>
+            </div>
 
+            <!-- Otros elementos de menú -->
             <div class="menu-item">
                 <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="BBQ Bacon Burger">
                 <h3>Pollo Bacon</h3>
@@ -151,42 +176,42 @@
                 <h3>KIDS Burger</h3>
                 <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
             </div>
-             <div class="menu-item">
+            <div class="menu-item">
                 <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
                 <h3>Sencilla</h3>
                 <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
             </div>
-             <div class="menu-item">
+            <div class="menu-item">
                 <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
                 <h3>Burger MEX</h3>
                 <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
             </div>
-             <div class="menu-item">
+            <div class="menu-item">
                 <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
                 <h3>Sao Paulo</h3>
                 <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
             </div>
-             <div class="menu-item">
+            <div class="menu-item">
                 <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
                 <h3>Montreal</h3>
                 <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
             </div>
-             <div class="menu-item">
+            <div class="menu-item">
                 <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
                 <h3>Singapur</h3>
                 <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
             </div>
-             <div class="menu-item">
+            <div class="menu-item">
                 <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
                 <h3>Holandesa</h3>
                 <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
             </div>
-             <div class="menu-item">
+            <div class="menu-item">
                 <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
                 <h3>Champiñonisima</h3>
                 <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
             </div>
-             <div class="menu-item">
+            <div class="menu-item">
                 <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
                 <h3>Peperonisima</h3>
                 <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
@@ -206,4 +231,3 @@
 
 </body>
 </html>
-

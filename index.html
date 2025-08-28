@@ -82,7 +82,7 @@
             margin-top: 50px;
         }
 
-        /* Nuevos estilos */
+        /* Estilos para los checkboxes en 2 columnas */
         .options-columns {
             display: flex;
             flex-wrap: wrap;
@@ -91,7 +91,13 @@
         }
 
         .options-columns label {
-            width: 48%; /* Para dos columnas */
+            width: 48%; /* Cada checkbox ocupa el 48% del contenedor, permitiendo 2 por fila */
+            display: flex;
+            align-items: center;
+        }
+
+        .options-columns input {
+            margin-right: 10px; /* Espaciado entre el checkbox y la etiqueta */
         }
 
         /* Estilo para la caja de comentarios */
@@ -174,46 +180,6 @@
             <div class="menu-item">
                 <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
                 <h3>KIDS Burger</h3>
-                <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
-            </div>
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
-                <h3>Sencilla</h3>
-                <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
-            </div>
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
-                <h3>Burger MEX</h3>
-                <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
-            </div>
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
-                <h3>Sao Paulo</h3>
-                <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
-            </div>
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
-                <h3>Montreal</h3>
-                <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
-            </div>
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
-                <h3>Singapur</h3>
-                <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
-            </div>
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
-                <h3>Holandesa</h3>
-                <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
-            </div>
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
-                <h3>Champiñonisima</h3>
-                <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
-            </div>
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90" alt="Veggie Burger">
-                <h3>Peperonisima</h3>
                 <p>Una opción vegetariana llena de sabor, con aguacate y champiñones grillados.</p>
             </div>
         </div>

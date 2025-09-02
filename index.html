@@ -956,7 +956,7 @@
 
   console.log(pedido);
   // Enviar a la API
-  fetch("http://localhost:51134/apihouse.ashx?Comando=AgregarOrden", {
+  fetch("http://amahcarev2.somee.com/apihouse.ashx?Comando=AgregarOrden", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -973,7 +973,7 @@
     console.error("Error:", err);
     alert("Error al enviar el pedido ❌");
   });
-  
+
 
     if (carrito.length === 0) {
         alert("Tu carrito está vacío");

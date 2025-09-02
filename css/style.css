@@ -1,0 +1,182 @@
+
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff5e1;
+            color: #333;
+        }
+        header {
+            background-color: #ff3c00;
+            color: white;
+            text-align: center;
+            height: 70px;
+        }
+        nav {
+            background-color: #ff7043;
+            text-align: center;
+            padding: 10px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        .hero {
+            background-image: url('https://images.unsplash.com/photo-1550547660-d9450f859349'); /* Puedes cambiar esta imagen */
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 2px 2px 5px #000;
+        }
+        .hero h1 {
+            font-size: 3em;
+        }
+
+        .content {
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .menu-highlight {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .menu-item {
+            background-color: #ffe0b2;
+            padding: 5px;
+            border-radius: 10px;
+            width: 250px;
+        }
+        .menu-item img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .cta {
+            margin-top: 5px;
+        }
+        .cta button {
+            background-color: #ff3c00;
+            color: white;
+            padding: 5px 30px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 50px;
+        }
+
+        /* Nuevos estilos */
+        .options-columns {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            text-align: left;
+        }
+
+   
+        /* Estilo para la caja de comentarios */
+        textarea {
+            width: 90%;
+           
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            resize: vertical; /* Solo permite redimensionar verticalmente */
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2em; /* tamaño en pantallas tipo celular */
+                text-align: center; /* sigue centrado */
+            }
+        }
+
+
+        input[type="checkbox"] {
+    width: 12px;   /* ancho del checkbox */
+    height: 12px;  /* alto del checkbox */
+    transform: scale(1.5); /* aumenta el tamaño visual */
+    margin-right: 8px; /* espacio entre checkbox y texto */
+}
+
+.col-6 {
+    padding-left: 5px;
+}
+
+.modal-content{
+    padding: 0px!important;
+}
+
+
+        /*MODAL*/
+
+     
+/* Fondo oscuro */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Caja del modal */
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  animation: aparecer 0.3s ease;
+  text-align: left;
+}
+
+/* Animación */
+@keyframes aparecer {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Botón cerrar (X) */
+.close {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+  color: #555;
+}
+
+.close:hover {
+  color: red;
+}
+
+/* Botón */
+.btn-cerrar {
+  background: #ff6600;
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.btn-cerrar:hover {
+  background: #e65c00;
+}

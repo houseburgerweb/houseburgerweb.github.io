@@ -1412,7 +1412,8 @@ document.getElementById("btnCarrito").addEventListener("click", () => {
     let total = carrito.reduce((sum, item) => {
       // quitar el $ y espacios, luego convertir a número
       let precioUnitario = parseFloat(item.precio.replace("$", "").trim());
-      return sum + (precioUnitario * parseInt(item.cantidad));
+      //return sum + (precioUnitario * parseInt(item.cantidad));
+       return sum + (precioUnitario );
     }, 0);
 
     // Mostrar el total en el input

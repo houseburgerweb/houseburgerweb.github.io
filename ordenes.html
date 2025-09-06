@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Burger - Bienvenido</title>
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+YffS3ZT+JdbD9lM9OquDTMCp+oj+7zK1WEnKbV1JlF99k0yEhe7r9GqQXOxkOsl" crossorigin="anonymous">
+<link href="css/style.css" rel="stylesheet">
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Bundle con Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<style>
+    .list-group{
+        padding: 5px;;
+    }
+
+    
+    .page-footer {
+        position: fixed;     /* se queda fijo */
+        bottom: 0;           /* pegado al fondo */
+        left: 0;
+        width: 100%;         /* ocupa todo el ancho */
+        background: #f8f9fa; /* color de fondo tipo Bootstrap */
+        padding: 10px 0;
+        box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        z-index: 999;        /* encima de otros elementos */
+    }
+
+    .bg-info{
+        font-size: 15px!important;
+        font-weight: 500;
+    }
+
+</style>
+
+ 
+</head>
+<body>
+
+    <!-- Overlay completo -->
+<div id="overlaySonido" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 249, 249, 0.808);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+">
+    <button id="btnIniciar" style="
+        width: 100px;
+        height: 100px;
+        font-size: 18px;
+        border: none;
+        border-radius: 50%;
+        background-color: #28a745;
+        color: white;
+        cursor: pointer;
+        text-align: center;
+    ">Iniciar</button>
+</div>
+
+<script>
+    let sonidoPermitido = false;
+
+    document.getElementById("btnIniciar").addEventListener("click", function() {
+        // Activar sonido
+        sonidoPermitido = true;
+
+        // Reproducir sonido inicial si quieres
+        let sonido = new Audio("images/BELL1.mp3");
+        sonido.play().catch(e => console.log(e));
+
+        // Ocultar overlay
+        document.getElementById("overlaySonido").style.display = "none";
+    });
+
+    // Función para reproducir sonido después
+    function reproducirSonido() {
+        if (sonidoPermitido) {
+            let sonido = new Audio("images/BELL1.mp3");
+            sonido.play().catch(e => console.log(e));
+        }
+    }
+</script>
+
+
+
+    <header>
+        <center><img src="images/logo2.png" width="70"></center> 
+        <p style="display:none">¡Extremadamente deliciosas. Pruebalas!</p>
+    </header>
+
+    <div class="modal-dialog modal-lg" style="padding: 5px;">
+        <div class="">
+            <div class="modal-header">
+                <h5 class="modal-title" id="carritoLabel">🛒 Orden </h5>
+                <h5 id="lblOrden">#01-250905</h5>
+            </div>
+        
+            <div class="modal-body" id="carritoContenido">
+            
+            </div>
+        </div>
+    </div>
+     
+  
+    <footer class="page-footer">
+        <center>
+            <button id="cancelar" type="button" onclick="terminarOrden('c')" class="btn btn-danger">Cancelar</button>
+            &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button id="terminar" type="button" onclick="terminarOrden('t')" class="btn btn-success">Terminar</button>
+        </center>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+
+
+        function reproducirSonido() {
+            let sonido = new Audio("images/BELL1.mp3");
+            sonido.play().catch(e => console.log(e));
+        }
+
+  
+
+       function verOrdenes() {
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:51134/apihouse.ashx?Comando=SeleccionarOrdenes",
+                contentType: false,
+                processData: false,
+                dataType: "json", // asegura que jQuery lo trate como JSON
+                success: function (result) {
+
+            
+    
+                    if (JSON.stringify(result) != '[]') {
+                        // aquí metes los <ul> con tus órdenes
+                     
+
+                      reproducirSonido();
+                    
+
+                   
+                    // Si viene como string, lo parseamos
+                    let data = typeof result === 'string' ? JSON.parse(result) : result;
+                    // Contenedor donde se agregarán las cards
+                    let contenedor = $('#carritoContenido');
+                    contenedor.empty();
+                    // Agrupar por idorden si quieres separar pedidos
+                    let pedidos = {};
+                    data.forEach(item => {
+                        if (!pedidos[item.idorden]) pedidos[item.idorden] = [];
+                        pedidos[item.idorden].push(item);
+                    });
+                    // Crear cards por cada orden
+                    for (let idorden in pedidos) {
+                        let items = pedidos[idorden];
+                        let ul = $('<ul class="list-group mb-3"></ul>');
+                        items.forEach(item => {
+                            let li = $('<li class="list-group-item" ></li>');
+                            // Cabecera con nombre y cantidad
+                            let header = $('<div class="d-flex justify-content-between align-items-center"></div>');
+                            header.append(`<strong>${item.Producto}</strong>`);
+                            header.append(`<span class="badge bg-info rounded-pill">(x${item.Cantidad})</span>`);
+                            li.append(header);
+                            // Ingredientes
+                            if (item.Ingredientes && item.Ingredientes.trim() !== "") {
+                                let ingredientesArray = item.Ingredientes.split(',').map(ing => ing.trim());
+                                let ingredientesHTML = ingredientesArray.map(ing => `<span class="badge bg-success rounded-pill">${ing}</span>`).join(' ');
+                                li.append(`Ingredientes: ${ingredientesHTML}<br>`);
+                            }
+                            // Opciones (condiciones)
+                            if (item.Opciones && item.Opciones.trim() !== "") {
+                                let opcionesArray = item.Opciones.split(',').map(op => op.trim());
+                                let opcionesHTML = opcionesArray.map(op => `<span class="badge bg-danger rounded-pill">${op}</span>`).join(' ');
+                                li.append(`Condiciones: ${opcionesHTML}<br>`);
+                            }
+                            ul.append(li);
+                        });
+                        contenedor.append(ul);
+
+
+                          
+                       
+                        
+                        let fecha = new Date(); // puede ser new Date() o un string convertido a Date
+                        // Obtener año, mes y día con ceros delante si hace falta
+                        let yyyy = fecha.getFullYear();
+                        let mm = String(fecha.getMonth() + 1).padStart(2, '0'); // getMonth() va de 0 a 11
+                        let dd = String(fecha.getDate()).padStart(2, '0');
+                        let fechaFormateada = `${yyyy}${mm}${dd}`;
+                        // Asignar al HTML
+                        document.getElementById("lblOrden").innerHTML = `#${idorden}-${yyyy}`;
+                    }
+
+                
+
+                } else {
+                        console.log("Imagen");
+                        document.getElementById("carritoContenido").innerHTML = `
+                        <br><br><br>
+                            <center><p>No hay órdenes</p>
+                            <img src="images/completadas.webp" style="opacity:0.3" width="50%" class="img-fluid"><center
+                        `;
+
+                      
+
+                }
+
+                },
+                error: function (jqXmlHttpRequest, textStatus, errorThrown) {
+                    setTimeout(function () { $("#loading").hide(); }, 1000);
+                    console.warn("Error al consultar las órdenes:", textStatus, errorThrown);
+                }
+            });
+        }
+        // Ejecutar cada 5 segundos
+   $(document).ready(function() {
+    verOrdenes();
+
+    setInterval(function() {
+        // Si no hay <ul> con órdenes dentro del div, hacemos la consulta
+        if ($('#carritoContenido ul').length === 0) {
+            verOrdenes();
+        } else {
+            console.log("Carrito tiene contenido, no se hace la consulta.");
+        }
+    }, 5000);
+});
+
+
+
+        function terminarOrden(estatus){
+            var id = document.getElementById("lblOrden").innerHTML.split('-');
+            id = id[0].split('#')[1];
+
+            console.log(id + " - " + estatus);
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:51134/apihouse.ashx?Comando=TerminarOrden",
+                contentType: false,
+                processData: false,
+                data: JSON.stringify({ IdOrden: id, Estatus: estatus }), // 👈 aquí
+                success: function (result) {
+                    console.log(result)
+                     verOrdenes();
+                $('#addProdMod').modal('hide');
+                // ToastSuccess("Imagen actualizada");
+                },
+                error: function (jqXmlHttpRequest, textStatus, errorThrown) {
+                setTimeout($("#loading").hide(), 1000);
+                ToastWarning("Verifique su conexión");
+                }
+            });
+        }
+
+          
+
+    </script>
+</body>
+</html>

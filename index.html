@@ -1102,6 +1102,115 @@
         <textarea id="txtUbicacion" name="txtUbicacion" style="width: 100%;" rows="3" cols="50" placeholder="Nombre y dirección de entrega..."></textarea>
     </div>
 
+ 
+
+    <div class="modal-body">
+        <div class="row">
+            <!-- Columna 1: Método de Pago -->
+            <div class="col-6">
+                <label for="metodoPago">Método de Pago:</label>
+                <select id="metodoPago" name="metodoPago" class="form-control">
+                    <option value="" disabled >Seleccione...</option>
+                    <option value="efectivo" selected>Efectivo</option>
+                    <option value="transferencia">Transferencia</option>
+                </select>
+            </div>
+
+            <div class="col-6" id="precioContainer" >
+                <label for="pagaCon"><b>Total:</b></label>
+                <input 
+                    type="number" 
+                    id="precio" 
+                    name="precio" 
+                    class="form-control" 
+                    placeholder="Ejemplo: 200"
+                    min="1"
+                    readonly
+                    style="font-weight: 700; text-align: end;"
+                >
+            </div>
+
+            
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+            <!-- Columna 1: Método de Pago -->
+            <!-- Columna 2: Paga con (oculto por defecto) -->
+            <div class="col-6" id="pagaConContainer" >
+                <label for="pagaCon">Paga con:</label>
+                <input 
+                    type="number" 
+                    id="pagaCon" 
+                    name="pagaCon" 
+                    class="form-control" 
+                    placeholder="Ejemplo: 200"
+                    min="1"
+                >
+            </div>
+
+            <!-- Columna 2: Paga con (oculto por defecto) -->
+            <div class="col-6" id="cambioContainer" >
+                <label for="cambio">Cambio:</label>
+                <input 
+                    type="number" 
+                    id="cambio" 
+                    name="cambio" 
+                    class="form-control" 
+                    min="1"
+                    readonly
+                    style="font-weight: 700; text-align: end;"
+                >
+            </div>
+            
+        </div>
+    </div>
+
+<script>
+document.getElementById("metodoPago").addEventListener("change", function() {
+    const pagaConContainer = document.getElementById("pagaConContainer");
+    const cambioContainer = document.getElementById("cambioContainer");
+
+    if (this.value === "efectivo") {
+        pagaConContainer.style.display = "block";
+        cambioContainer.style.display = "block";
+    } else {
+        pagaConContainer.style.display = "none";
+        cambioContainer.style.display = "none";
+        pagaConContainer.value = "";
+        cambioContainer.value = "";
+        document.getElementById("pagaCon").value = ""; // limpiar si no es efectivo
+    }
+});
+
+// Escuchar cuando el usuario escribe en "pagaCon"
+document.getElementById("pagaCon").addEventListener("input", () => {
+  let pagaCon = parseFloat(document.getElementById("pagaCon").value) || 0;
+  let total = parseFloat(document.getElementById("precio").value) || 0;
+
+  // Calcular cambio
+  let cambio = pagaCon - total;
+
+  let cambioInput = document.getElementById("cambio");
+
+  if (cambio >= 0) {
+    cambioInput.value = cambio.toFixed(2);
+    cambioInput.style.color = "black"; // Normal
+  } else {
+    cambioInput.value = "0.00";
+    cambioInput.style.color = "red"; // Falta dinero
+  }
+});
+
+
+
+</script>
+
+
+
+
+
       <div class="modal-footer">
         <button id="vaciarCarrito" class="btn btn-danger">Vaciar</button>
 
@@ -1124,35 +1233,54 @@
 
     <script>
 
-       document.getElementById("realizarPedido").addEventListener("click", function() {
-    // Recuperar carrito desde localStorage
-    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    document.getElementById("realizarPedido").addEventListener("click", function() {
+        // Recuperar carrito desde localStorage
+        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        let pedido = {
+            clienteId: 123, // ⚡ Aquí pones el id del cliente logueado
+            items: carrito
+        };
 
-      let pedido = {
-    clienteId: 123, // ⚡ Aquí pones el id del cliente logueado
-    items: carrito
-  };
+        var ubica = document.getElementById("txtUbicacion").value;
+        var total = document.getElementById("precio").value;
+        var mp = document.getElementById("metodoPago").value;
+        var pc = document.getElementById("pagaCon").value;
+        var cambio = document.getElementById("cambio").value;
 
 
+        // Recorrer cada item del pedido
+        pedido.items.forEach(item => {
+            if (item.opciones && item.opciones.length > 0) {
+                item.opciones = item.opciones.map(opcion => {
+                    // Elimina etiquetas <span> y </span>
+                    return opcion.replace(/<[^>]*>/g, '').trim();
+                });
+            }
+        });
+
+        // Convertir a JSON limpio
         var jsonData = JSON.stringify(pedido);
 
-      
-        
-    $.ajax({
-        type: "POST",
-        url: "http://localhost:51134/REQ.ashx?Comando=AgregarOrden&i",
-        contentType: false,
-        processData: false,
-        data: jsonData,
-        success: function (result) {
-          $('#addProdMod').modal('hide');
-          ToastSuccess("Imagen actualizada");
-        },
-        error: function (jqXmlHttpRequest, textStatus, errorThrown) {
-          setTimeout($("#loading").hide(), 1000);
-          ToastWarning("Verifique su conexión");
-        }
-    });
+        console.log(jsonData);
+  
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:51134/apihouse.ashx?Comando=AgregarOrden&Ubicacion="+ubica+"&Total="+total+"&MetodoPago="+mp+"&PagaCon="+pc+"&Cambio="+cambio,
+            contentType: false,
+            processData: false,
+            data: jsonData,
+            success: function (result) {
+                console.log(result)
+            $('#addProdMod').modal('hide');
+            // ToastSuccess("Imagen actualizada");
+            },
+            error: function (jqXmlHttpRequest, textStatus, errorThrown) {
+            setTimeout($("#loading").hide(), 1000);
+            ToastWarning("Verifique su conexión");
+            }
+        });
+
+    
 
 
     if (carrito.length === 0) {
@@ -1255,6 +1383,7 @@ this.querySelectorAll('input[name="customizations"]').forEach(el => {
   });
 });
 
+
 // 🔹 Mostrar carrito en modal
 document.getElementById("btnCarrito").addEventListener("click", () => {
   let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -1262,31 +1391,38 @@ document.getElementById("btnCarrito").addEventListener("click", () => {
 
   if (carrito.length === 0) {
     contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
+    document.getElementById("precio").value = 0; // si está vacío, total en 0
   } else {
     contenedor.innerHTML = `
       <ul class="list-group">
         ${carrito.map((item, i) => `
           <li class="list-group-item">
-         
             <div class="d-flex justify-content-between align-items-center">
-                <strong>${item.producto}</strong>(x${item.cantidad})
+                <strong>${item.producto}</strong> (x${item.cantidad})
                 <span class="badge bg-info rounded-pill">${item.precio}</span>
             </div>
-
-
-
             ${item.opciones?.length > 0 ? "Ingredientes: " + item.opciones.join(", ") + "<br>" : ""}
-
             ${item.comentario ? "Nota: " + item.comentario : ""}
           </li>
         `).join("")}
       </ul>
     `;
+
+    // 🔹 Calcular el total
+    let total = carrito.reduce((sum, item) => {
+      // quitar el $ y espacios, luego convertir a número
+      let precioUnitario = parseFloat(item.precio.replace("$", "").trim());
+      return sum + (precioUnitario * parseInt(item.cantidad));
+    }, 0);
+
+    // Mostrar el total en el input
+    document.getElementById("precio").value = total.toFixed(2);
   }
 
   // Mostrar modal
   new bootstrap.Modal(document.getElementById("carritoModal")).show();
 });
+
 
 // 🔹 Vaciar carrito
 document.getElementById("vaciarCarrito").addEventListener("click", () => {

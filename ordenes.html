@@ -135,7 +135,7 @@
        function verOrdenes() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:51134/apihouse.ashx?Comando=SeleccionarOrdenes",
+                url: "http://amahcarev2.somee.com/apihouse.ashx?Comando=SeleccionarOrdenes",
                 contentType: false,
                 processData: false,
                 dataType: "json", // asegura que jQuery lo trate como JSON
@@ -247,7 +247,7 @@
             console.log(id + " - " + estatus);
             $.ajax({
                 type: "POST",
-                url: "http://localhost:51134/apihouse.ashx?Comando=TerminarOrden",
+                url: "http://amahcarev2.somee.com/apihouse.ashx?Comando=TerminarOrden",
                 contentType: false,
                 processData: false,
                 data: JSON.stringify({ IdOrden: id, Estatus: estatus }), // 👈 aquí

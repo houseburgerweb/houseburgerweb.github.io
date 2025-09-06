@@ -220,7 +220,7 @@
                 },
                 error: function (jqXmlHttpRequest, textStatus, errorThrown) {
                     setTimeout(function () { $("#loading").hide(); }, 1000);
-                    console.warn("Error al consultar las órdenes:", textStatus, errorThrown);
+                    console.log("Error: "+errorThrown);
                 }
             });
         }

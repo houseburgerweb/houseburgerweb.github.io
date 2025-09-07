@@ -112,7 +112,7 @@
         </div>
     </div>
 
-    <table style="width: 100%; color: black;">
+    <table id="tablaPago" style="width: 100%; color: black;">
             <tr>
                 <td>Paga: <input id="lblPagacon" type="text" style="width: 50px; text-align: center; font-weight: 700;""></td>
                 <td>Total: <input id="lblTotal" type="text" style="width: 50px; text-align: center; font-weight: 700;"></td>
@@ -208,6 +208,7 @@
                          document.getElementById("lblPagacon").value = `${pagacon}`;
                           document.getElementById("lblTotal").value = `${total}`;
                            document.getElementById("lblCambio").value = `${cambio.split('.')[0]}`;
+                            document.getElementById("tablaPago").style.display = "block";
                     }
 
                 
@@ -220,7 +221,7 @@
                             <img src="images/completadas.webp" style="opacity:0.3" width="50%" class="img-fluid"><center
                         `;
 
-                      
+                      document.getElementById("tablaPago").style.display = "none";
 
                 }
 

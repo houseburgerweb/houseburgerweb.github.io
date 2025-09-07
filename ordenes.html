@@ -105,15 +105,24 @@
                 <h5 class="modal-title" id="carritoLabel">🛒 Orden </h5>
                 <h5 id="lblOrden">#01-250905</h5>
             </div>
-        
+       <center> <span id="lblUbicacion"></span></center>
             <div class="modal-body" id="carritoContenido">
             
             </div>
         </div>
     </div>
+
+    <table style="width: 100%; color: black;">
+            <tr>
+                <td>Paga: <input id="lblPagacon" type="text" style="width: 50px; text-align: center; font-weight: 700;""></td>
+                <td>Total: <input id="lblTotal" type="text" style="width: 50px; text-align: center; font-weight: 700;"></td>
+                <td>Cambio: <input id="lblCambio" type="text" style="width: 50px; text-align: center; font-weight: 700;""></td>
+            </tr>
+        </table>
      
   
     <footer class="page-footer">
+        
         <center>
             <button id="cancelar" type="button" onclick="terminarOrden('c')" class="btn btn-danger">Cancelar</button>
             &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -130,8 +139,6 @@
             sonido.play().catch(e => console.log(e));
         }
 
-  
-
        function verOrdenes() {
             $.ajax({
                 type: "GET",
@@ -141,16 +148,12 @@
                 dataType: "json", // asegura que jQuery lo trate como JSON
                 success: function (result) {
 
-            
-    
                     if (JSON.stringify(result) != '[]') {
-                        // aquí metes los <ul> con tus órdenes
-                     
-
-                      reproducirSonido();
-                    
-
-                   
+                    reproducirSonido();
+                    var ubicacion = "";
+                    var pagacon = "";
+                    var total = "";
+                    var cambio = "";
                     // Si viene como string, lo parseamos
                     let data = typeof result === 'string' ? JSON.parse(result) : result;
                     // Contenedor donde se agregarán las cards
@@ -186,13 +189,13 @@
                                 li.append(`Condiciones: ${opcionesHTML}<br>`);
                             }
                             ul.append(li);
+
+                            ubicacion = item.ubicacion; // obtengo la ubicacion
+                            pagacon = item.pagacon; // obtengo la ubicacion
+                            total = item.total; // obtengo la ubicacion
+                            cambio = item.cambio; // obtengo la ubicacion
                         });
                         contenedor.append(ul);
-
-
-                          
-                       
-                        
                         let fecha = new Date(); // puede ser new Date() o un string convertido a Date
                         // Obtener año, mes y día con ceros delante si hace falta
                         let yyyy = fecha.getFullYear();
@@ -201,6 +204,10 @@
                         let fechaFormateada = `${yyyy}${mm}${dd}`;
                         // Asignar al HTML
                         document.getElementById("lblOrden").innerHTML = `#${idorden}-${yyyy}`;
+                        document.getElementById("lblUbicacion").innerHTML = `📍 ${ubicacion}`;
+                         document.getElementById("lblPagacon").value = `${pagacon}`;
+                          document.getElementById("lblTotal").value = `${total}`;
+                           document.getElementById("lblCambio").value = `${cambio.split('.')[0]}`;
                     }
 
                 

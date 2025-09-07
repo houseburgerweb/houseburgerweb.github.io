@@ -10,6 +10,7 @@
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+
 <!-- Bootstrap Bundle con Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -147,10 +148,10 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="carritoLabel">🛒 Ordenes</h5>
+        <h5 class="modal-title" id="carritoLabel">🛒 Ordenes Siguientes</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
-      <div class="modal-body" id="ordenesRestantesContenidoModal">
+      <div class="modal-body" id="ordenesRestantesContenidoModal" style="padding: 0px;">
         <p>Aqui el slider</p>
       </div>
       <div class="modal-footer">
@@ -390,11 +391,9 @@ function verOrdenesRestantes() {
                       <div class="carousel-item ${isActive ? 'active' : ''}">
                         <div class="card p-3">
                           <h5>Orden #${orden.idorden}</h5>
+                          <p><strong>📍</strong> ${orden.ubicacion}</p>
                           ${ulHtml}
-                          <p><strong>Ubicación:</strong> ${orden.ubicacion}</p>
-                          <p><strong>Paga con:</strong> ${orden.pagacon}</p>
-                          <p><strong>Total:</strong> $${orden.total}</p>
-                          <p><strong>Cambio:</strong> $${orden.cambio}</p>
+                          
                         </div>
                       </div>`;
                     isActive = false;
@@ -403,14 +402,25 @@ function verOrdenesRestantes() {
                 carousel += `
                   </div>
                   <button class="carousel-control-prev" type="button" data-bs-target="#ordenesCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="carousel-control-prev-icon" aria-hidden="false"></span>
                     <span class="visually-hidden">Anterior</span>
                   </button>
                   <button class="carousel-control-next" type="button" data-bs-target="#ordenesCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="carousel-control-next-icon" aria-hidden="false"></span>
                     <span class="visually-hidden">Siguiente</span>
                   </button>
-                </div>`;
+                </div>
+                
+                <style>
+/* Sobrescribir icono next a negro */
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='black' viewBox='0 0 8 8'%3E%3Cpath d='M2.5 0l-1.4 1.4 2.6 2.6-2.6 2.6 1.4 1.4 4-4-4-4z'/%3E%3C/svg%3E");
+}
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='black' viewBox='0 0 8 8'%3E%3Cpath d='M5.5 0l1.4 1.4-2.6 2.6 2.6 2.6-1.4 1.4-4-4 4-4z'/%3E%3C/svg%3E");
+}
+</style>
+                `;
 
                 // Insertar en el modal
                 $('#ordenesRestantesContenidoModal').html(carousel);

@@ -304,6 +304,7 @@ function terminarOrden(estatus){
                 data: JSON.stringify({ IdOrden: id, Estatus: estatus }), // 👈 aquí
                 success: function (result) {
                     console.log(result)
+                     document.getElementById("lblUbicacion").innerHTML = "";
                      verOrdenes();
                 $('#addProdMod').modal('hide');
                 // ToastSuccess("Imagen actualizada");

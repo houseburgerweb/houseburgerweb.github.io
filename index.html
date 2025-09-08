@@ -1331,7 +1331,14 @@ document.getElementById("pagaCon").addEventListener("input", () => {
             processData: false,
             data: jsonData,
             success: function (result) {
-                alert(result)
+             
+                document.getElementById("txtUbicacion").value = "";
+                document.getElementById("metodoPago").value = "efectivo";
+                document.getElementById("pagaCon").value = "";
+                document.getElementById("cambio").value = "";
+
+                document.getElementById("pagaConContainer").style.display = "block";
+                document.getElementById("cambioContainer").style.display = "block";
             $('#addProdMod').modal('hide');
             // ToastSuccess("Imagen actualizada");
             },

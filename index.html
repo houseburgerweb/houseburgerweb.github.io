@@ -1141,9 +1141,13 @@
 
     <!-- Botón flotante del carrito -->
 <button id="btnCarrito" class="btn btn-danger rounded-circle" 
-        style="position: fixed; bottom: 20px; right: 20px; z-index: 999; width: 45px; height: 45px; font-size: 18px;">
+        style="position: fixed; bottom: 20px; right: 20px; z-index: 999; width: 60px; height: 60px; font-size: 30px;">
     🛒
 </button>
+
+<!-- Contenedor para las alertas tipo toast -->
+<div id="toastContainer" style="position: fixed; bottom: 100px; right: 20px; z-index: 1000;"></div>
+
 
 <!-- Modal del carrito -->
 <div class="modal fade" id="carritoModal" tabindex="-1" aria-labelledby="carritoLabel" aria-hidden="true">
@@ -1235,6 +1239,7 @@ document.getElementById("metodoPago").addEventListener("change", function() {
     if (this.value === "efectivo") {
         pagaConContainer.style.display = "block";
         cambioContainer.style.display = "block";
+        document.getElementById("pagaCon").value = "";
     } else {
         pagaConContainer.style.display = "none";
         cambioContainer.style.display = "none";
@@ -1441,46 +1446,72 @@ this.querySelectorAll('input[name="customizations"]').forEach(el => {
     // Guardar de nuevo en localStorage
     localStorage.setItem("carrito", JSON.stringify(carrito));
 
-    alert(`${nombreHamburguesa} agregado al carrito 🛒`);
+    //alert(`${nombreHamburguesa} agregado al carrito 🛒`);
+    mostrarAlerta(`${nombreHamburguesa} agregado al carrito 🛒`);
+
+
   });
 });
 
 
-// 🔹 Mostrar carrito en modal
+// 🔹 Mostrar carrito en modal con botón de eliminar
 document.getElementById("btnCarrito").addEventListener("click", () => {
   let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
   let contenedor = document.getElementById("carritoContenido");
 
-  if (carrito.length === 0) {
-    contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
-    document.getElementById("precio").value = 0; // si está vacío, total en 0
-  } else {
+  function actualizarTotal() {
+    let total = carrito.reduce((sum, item) => {
+      let precioUnitario = parseFloat(item.precio.replace("$", "").trim());
+      return sum + precioUnitario; // si quieres multiplicar por cantidad: precioUnitario * item.cantidad
+    }, 0);
+    document.getElementById("precio").value = total.toFixed(2);
+
+    if( document.getElementById("metodoPago").value == "transferencia"){
+        document.getElementById("pagaCon").value = total.toFixed(2).split('.')[0];
+    }
+
+  }
+
+  function renderCarrito() {
+    if (carrito.length === 0) {
+      contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
+      document.getElementById("precio").value = 0;
+      return;
+    }
+
     contenedor.innerHTML = `
       <ul class="list-group">
         ${carrito.map((item, i) => `
-          <li class="list-group-item">
-            <div class="d-flex justify-content-between align-items-center">
-                <strong>${item.producto}</strong> (x${item.cantidad})
-                <span class="badge bg-info rounded-pill">${item.precio}</span>
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div>
+                <strong>${item.producto}</strong> (x${item.cantidad})<br>
+                ${item.opciones?.length > 0 ? "Ingredientes: " + item.opciones.join(", ") + "<br>" : ""}
+                ${item.comentario ? "Nota: " + item.comentario : ""}
             </div>
-            ${item.opciones?.length > 0 ? "Ingredientes: " + item.opciones.join(", ") + "<br>" : ""}
-            ${item.comentario ? "Nota: " + item.comentario : ""}
+            <div class="text-end">
+                <span class="badge bg-info rounded-pill">${item.precio}</span>
+                <button class="btn btn-sm btn-danger btn-eliminar" style="padding:0px" data-index="${i}">❌</button>
+            </div>
           </li>
         `).join("")}
       </ul>
     `;
 
-    // 🔹 Calcular el total
-    let total = carrito.reduce((sum, item) => {
-      // quitar el $ y espacios, luego convertir a número
-      let precioUnitario = parseFloat(item.precio.replace("$", "").trim());
-      //return sum + (precioUnitario * parseInt(item.cantidad));
-       return sum + (precioUnitario );
-    }, 0);
+    // 🔹 Asignar evento a botones de eliminar
+    document.querySelectorAll(".btn-eliminar").forEach(btn => {
+      btn.addEventListener("click", function() {
+        let index = this.dataset.index;
+        carrito.splice(index, 1); // eliminar del carrito
+        localStorage.setItem("carrito", JSON.stringify(carrito)); // actualizar storage
+        renderCarrito(); // volver a renderizar
+        actualizarTotal(); // recalcular total
+      });
+    });
 
-    // Mostrar el total en el input
-    document.getElementById("precio").value = total.toFixed(2);
+    actualizarTotal();
   }
+
+  renderCarrito();
 
   // Mostrar modal
   new bootstrap.Modal(document.getElementById("carritoModal")).show();
@@ -1567,6 +1598,55 @@ document.addEventListener("DOMContentLoaded", () => {
     // Mostrar por defecto hamburguesas
     document.querySelector('.categoria-btn[data-categoria="hamburguesas"]').click();
 });
+
+
+
+
+
+
+// Función para mostrar alerta tipo toast
+function mostrarAlerta(mensaje) {
+    const toast = document.createElement('div');
+    toast.innerHTML = mensaje;
+    toast.style.cssText = `
+        background: #dc3545;
+        color: white;
+        padding: 10px 20px;
+        margin-top: 5px;
+        border-radius: 5px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        opacity: 0;
+        transition: opacity 0.5s, transform 0.5s;
+    `;
+
+    document.getElementById('toastContainer').appendChild(toast);
+
+    // Mostrar con efecto
+    setTimeout(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateY(-10px)';
+    }, 50);
+
+    // Ocultar después de 3 segundos
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-20px)';
+        setTimeout(() => toast.remove(), 500);
+    }, 3000);
+
+    // Efecto en el botón carrito
+    const btn = document.getElementById('btnCarrito');
+    btn.style.transform = 'scale(1.3)';
+    setTimeout(() => btn.style.transform = 'scale(1)', 200);
+}
+
+
+
+
+
+
+
+
 </script>
 
 

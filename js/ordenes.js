@@ -64,10 +64,29 @@ function verOrdenes() {
                         li.append(`Ingredientes: ${ingredientesHTML}<br>`);
                     }
                     // Opciones (condiciones)
+                    //if (item.Opciones && item.Opciones.trim() !== "") {
+                    //    let opcionesArray = item.Opciones.split(',').map(op => op.trim());
+                    //    let opcionesHTML = opcionesArray.map(op => `<span class="badge bg-danger rounded-pill">${op}</span>`).join(' ');
+                    //    li.append(`Condiciones: ${opcionesHTML}<br>`);
+                    //}
                     if (item.Opciones && item.Opciones.trim() !== "") {
-                        let opcionesArray = item.Opciones.split(',').map(op => op.trim());
-                        let opcionesHTML = opcionesArray.map(op => `<span class="badge bg-danger rounded-pill">${op}</span>`).join(' ');
-                        li.append(`Condiciones: ${opcionesHTML}<br>`);
+    let opcionesArray = item.Opciones.split(',').map(op => op.trim());
+    let opcionesHTML = opcionesArray
+        .map(op => `<span class="badge bg-danger rounded-pill">${op}</span>`)
+        .join(' ');
+
+    li.append(`Condiciones: ${opcionesHTML}<br>`);
+
+    // Validar si NO contiene "sin papas"
+    let tieneSinPapas = opcionesArray.some(op => op.toLowerCase() === "sin papas");
+
+    if (!tieneSinPapas) {
+        li.append(`<div class="bg-warning text-dark p-2 text-center">🍟<b> Con Papas </b>🍟</div>`);
+    }
+}
+
+                    else{
+                         li.append(`<div class="bg-warning text-dark p-2  text-center"><b>Con Papas</b></div>`);
                     }
                     ul.append(li);
                     ubicacion = item.ubicacion; // obtengo la ubicacion
@@ -168,11 +187,27 @@ function verOrdenesRestantes() {
                             let ingredientesHTML = ingredientesArray.map(ing => `<span class="badge bg-success rounded-pill">${ing}</span>`).join(' ');
                             li.append(`Ingredientes: ${ingredientesHTML}<br>`);
                         }
-                        if (prod.Opciones && prod.Opciones.trim() !== "") {
-                            let opcionesArray = prod.Opciones.split(',').map(op => op.trim());
-                            let opcionesHTML = opcionesArray.map(op => `<span class="badge bg-danger rounded-pill">${op}</span>`).join(' ');
-                            li.append(`Condiciones: ${opcionesHTML}<br>`);
-                        }
+                        //if (prod.Opciones && prod.Opciones.trim() !== "") {
+                        //    let opcionesArray = prod.Opciones.split(',').map(op => op.trim());
+                        //    let opcionesHTML = opcionesArray.map(op => `<span class="badge bg-danger rounded-pill">${op}</span>`).join(' ');
+                        //    li.append(`Condiciones: ${opcionesHTML}<br>`);
+                        //}
+                        if (item.Opciones && item.Opciones.trim() !== "") {
+    let opcionesArray = item.Opciones.split(',').map(op => op.trim());
+    let opcionesHTML = opcionesArray
+        .map(op => `<span class="badge bg-danger rounded-pill">${op}</span>`)
+        .join(' ');
+
+    li.append(`Condiciones: ${opcionesHTML}<br>`);
+
+    // Validar si NO contiene "sin papas"
+    let tieneSinPapas = opcionesArray.some(op => op.toLowerCase() === "sin papas");
+
+    if (!tieneSinPapas) {
+        li.append(`<div class="bg-warning text-dark p-2 text-center">🍟<b> Con Papas </b>🍟</div>`);
+    }
+}
+
                         ul.append(li);
                     });
                     let ulHtml = $('<div>').append(ul).html();

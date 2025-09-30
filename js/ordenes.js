@@ -46,10 +46,17 @@ function verOrdenes() {
                 if (!pedidos[item.idorden]) pedidos[item.idorden] = [];
                 pedidos[item.idorden].push(item);
             });
+
+           // Cantidad total de productos en todos los pedidos
+            let totalProductos = Object.values(pedidos).reduce((acc, arr) => acc + arr.length, 0);
+
+ 
+     
             // Crear cards por cada orden
             for (let idorden in pedidos) {
                 let items = pedidos[idorden];
                 let ul = $('<ul class="list-group mb-3"></ul>');
+              
                 items.forEach(item => {
                     let li = $('<li class="list-group-item" ></li>');
                     // Cabecera con nombre y cantidad
@@ -103,13 +110,17 @@ function verOrdenes() {
                 let dd = String(fecha.getDate()).padStart(2, '0');
                 let fechaFormateada = `${yyyy}${mm}${dd}`;
                 // Asignar al HTML
-                document.getElementById("lblOrden").innerHTML = `#${idorden}-${yyyy}`;
+
+                
+                document.getElementById("carritoLabel").innerHTML = `🛒 Pzas.${totalProductos}`;
+                document.getElementById("lblOrden").innerHTML = `Orden: #${idorden}-${yyyy}`;
                 document.getElementById("lblUbicacion").innerHTML = `📍 ${ubicacion}`;
                 document.getElementById("lblPagacon").value = `${pagacon}`;
                 document.getElementById("lblTotal").value = `${total}`;
                 document.getElementById("lblCambio").value = `${cambio.split('.')[0]}`;
                 document.getElementById("tablaPago").style.display = "block";
             }
+
         } else {
                 console.log("Imagen");
                 document.getElementById("carritoContenido").innerHTML = `

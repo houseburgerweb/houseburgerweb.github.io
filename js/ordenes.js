@@ -94,7 +94,8 @@ function verOrdenes() {
                     total = item.total; // obtengo la ubicacion
                     cambio = item.cambio; // obtengo la ubicacion
                 });
-                contenedor.append(ul);
+                contenedor.append(ul );
+               
                 let fecha = new Date(); // puede ser new Date() o un string convertido a Date
                 // Obtener año, mes y día con ceros delante si hace falta
                 let yyyy = fecha.getFullYear();

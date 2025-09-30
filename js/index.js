@@ -98,7 +98,9 @@ document.querySelectorAll("form").forEach((form) => {
     let texto = el.nextSibling.textContent.trim();
 
      if (el.checked) {
-        //opciones.push(`<span class="badge bg-primary rounded-pill">${texto}</span>`);
+        //if(texto == "Papas"){
+        //    opciones.push(`<span class="badge bg-primary rounded-pill">${texto}</span>`);
+        //}
     } else {
         opciones.push(`<span class="badge bg-danger rounded-pill">Sin ${texto}</span>`);
     }
@@ -156,7 +158,7 @@ document.getElementById("btnCarrito").addEventListener("click", () => {
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div>
                     <strong>${item.producto}</strong> (x${item.cantidad})<br>
-                    ${item.opciones?.length > 0 ? "Ingredientes: " + item.opciones.join(", ") + "<br>" : ""}
+                    ${item.opciones?.length > 0 ? "Condiciones: " + item.opciones.join(", ") + "<br>" : ""}
                     ${item.comentario ? "Nota: " + item.comentario : ""}
                 </div>
                 <div class="text-end">

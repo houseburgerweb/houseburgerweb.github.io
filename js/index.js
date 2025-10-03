@@ -86,7 +86,11 @@ document.querySelectorAll("form").forEach((form) => {
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const nombreHamburguesa = this.parentElement.querySelector("h3").innerText;
+   // const nombreHamburguesa = this.parentElement.querySelector("h3").innerText;
+
+    const tituloEl = this.parentElement.querySelector("h3, h5");
+const nombreHamburguesa = tituloEl ? tituloEl.innerText : "";
+
     const cantidad = this.parentElement.querySelector('input[type="number"]').value;
     // Obtenemos el precio desde el span con name="precio"
     const precioText = this.parentElement.querySelector('span[name="precio"]').textContent.trim(); // "$ 80"
